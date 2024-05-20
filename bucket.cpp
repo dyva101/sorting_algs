@@ -20,6 +20,10 @@ void insertEnd(Node**, int);
 void displayList(Node*);
 void deleteAll(Node*&);
 Node* generateRandomList(int);
+void bubblesort(Node* head);
+void optimizedBubblesort(Node* head);
+void trocaValor(Node*, Node*);
+
 
 int main() 
 {
@@ -73,3 +77,112 @@ void insertEnd(Node** head, int iPayload) {
     temp->ptrNext = newNode;
 }
 
+void bucketSort(Node* head)
+{
+    Node** buckets;
+
+    buckets = (Node**)malloc(sizeof(Node*)*10);
+
+    for (i = 0; i < 10; i++)
+    {
+        buckets[i] = NULL;
+    }
+
+    for (int i=0; i < 100; i++)
+    { //FILL THE BUCKETS :P
+        Node* current;
+        Node* element = head;
+
+        int pos = (element->iPayload)/10;
+
+        current = (Node*)malloc(sizeof(Node));
+        current->iPayload = element->iPayload;
+        buckets[pos] = current;
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        optimizedBubblesort(buckets[i]);
+    }
+
+    for (int j = 0, i = 0; i < 10; ++i)
+    {
+        Node* node;
+        node = buckets[i];
+
+        while (node) 
+        {
+            Node* element = head;
+            element->iPayload = node->iPayload;
+            node = node->ptrNext;
+        }
+    }
+
+    for (int i = 0; i < 10; i++)
+    {
+        Node* node;
+        node = buckets[i];
+        while (node)
+        {
+            Node* temp;
+            temp = node;
+        }
+    }
+}
+
+void bubblesort(Node* head) 
+{
+    if (head == nullptr || head->ptrNext == nullptr) 
+    {
+        return;
+    }
+    
+    Node* lastNode = nullptr;
+    Node* firstNode = head;
+    while (firstNode->ptrNext != nullptr) 
+    {
+        Node* current = head;
+        while (current->ptrNext != lastNode) 
+        {
+            if (current->iPayload > current->ptrNext->iPayload) 
+            {
+                trocaValor(current, current->ptrNext);
+            }
+            current = current->ptrNext;
+        }
+        firstNode = firstNode->ptrNext;
+        lastNode = current;
+    }
+}
+
+void optimizedBubblesort(Node* head) 
+{
+    if (head == nullptr || head->ptrNext == nullptr) 
+    {
+        return;
+    }
+    bool unordered = false;
+    Node* lastNode = nullptr;
+    do 
+    {
+        unordered = false;
+        Node* current = head;
+        while (current->ptrNext != lastNode) 
+        {
+            if (current->iPayload > current->ptrNext->iPayload) 
+            {
+                trocaValor(current, current->ptrNext);
+                unordered = true;
+            }
+            current = current->ptrNext;
+        }
+        lastNode = current;
+    } while (unordered);
+}
+
+void trocaValor(Node* node1, Node* node2) 
+{
+    int temp = node1->iPayload;
+    node1->iPayload = node2->iPayload;
+    node2->iPayload = temp;
+}
