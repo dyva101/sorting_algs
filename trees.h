@@ -127,3 +127,24 @@ void bfsTraversal(Node* startingNode)
         }
     }
 }
+void dfsTraversal(Node* ptrStartingNode)
+{
+    if (ptrStartingNode != nullptr)
+    {
+        // Comentário removido: cout << ptrStartingNode->iPayload << " ";
+        dfsTraversal(ptrStartingNode->ptrLeft);
+        dfsTraversal(ptrStartingNode->ptrRight);
+    }
+}
+
+int treeHeight(Node* startingNode)
+{
+    if (startingNode == nullptr) return 0;
+    else
+    {
+        int iLeftHeight = treeHeight(startingNode->ptrLeft);
+        int iRightHeight = treeHeight(startingNode->ptrRight);
+
+        return max(iLeftHeight, iRightHeight) + 1;
+    }
+}
