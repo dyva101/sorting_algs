@@ -69,3 +69,38 @@ int main(){
 
     return 0;
 }
+Node* createNode(int iValue)
+{
+    Node* tmp = (Node*) malloc(sizeof(Node));
+
+    if (tmp == nullptr)
+    {
+        cerr << "Erro em createNode: malloc" << endl;
+        exit(1);
+    }
+
+    tmp->iPayload = iValue;
+    tmp->ptrLeft = nullptr;
+    tmp->ptrRight = nullptr;
+
+    return tmp;
+}
+
+Node* insertNode(Node* startingNode, int iData)
+{
+    if(startingNode == nullptr)
+    {
+        return createNode(iData);
+    }
+
+    if(iData < startingNode->iPayload)
+    {
+        startingNode->ptrLeft = insertNode(startingNode->ptrLeft, iData);
+    }
+    else
+    {
+        startingNode->ptrRight = insertNode(startingNode->ptrRight, iData);
+    }
+
+    return startingNode;
+}
