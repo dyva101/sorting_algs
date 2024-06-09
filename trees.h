@@ -104,3 +104,26 @@ Node* insertNode(Node* startingNode, int iData)
 
     return startingNode;
 }
+void bfsTraversal(Node* startingNode)
+{
+    if (startingNode == nullptr) return;
+
+    Queue queue;
+    queue.enqueue(startingNode);
+
+    while (!queue.isEmpty())
+    {
+        Node* currentNode = queue.dequeue();
+        // Comentário removido: cout << currentNode->iPayload << " ";
+
+        if (currentNode->ptrLeft != nullptr)
+        {
+            queue.enqueue(currentNode->ptrLeft);
+        }
+
+        if (currentNode->ptrRight != nullptr)
+        {
+            queue.enqueue(currentNode->ptrRight);
+        }
+    }
+}
