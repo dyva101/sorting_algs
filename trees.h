@@ -66,9 +66,61 @@ void dfsTraversal(Node*);
 int treeHeight(Node*);
 
 int main(){
+    Node* root = nullptr;
 
+    // Parte 5: Monitorar o desempenho de criação de árvores
+    auto start = high_resolution_clock::now();
+    for (int i = 0; i < 1000000; ++i) {
+        root = insertNode(root, rand() % 1000000);
+    }
+    auto end = high_resolution_clock::now();
+    auto duration = duration_cast<microseconds>(end - start).count();
+    cout << "Tempo de criação da árvore: " << duration << " microssegundos" << endl;
+
+    // Parte 3: Monitorar o desempenho de busca em árvore utilizando DFS e BFS
+    start = high_resolution_clock::now();
+    dfsTraversal(root);
+    end = high_resolution_clock::now();
+    auto durationDFS = duration_cast<microseconds>(end - start).count();
+    cout << "Tempo de execução DFS: " << durationDFS << " microssegundos" << endl;
+
+    start = high_resolution_clock::now();
+    bfsTraversal(root);
+    end = high_resolution_clock::now();
+    auto durationBFS = duration_cast<microseconds>(end - start).count();
+    cout << "Tempo de execução BFS: " << durationBFS << " microssegundos" << endl;
+
+    // Parte 4: Monitorar o desempenho de criação de listas
+    ListNode* head = nullptr;
+    ListNode* tail = nullptr;
+
+    start = high_resolution_clock::now();
+
+    for (int i = 0; i < 1000000; ++i) {
+        ListNode* newNode = new ListNode{i, nullptr};
+        if (head == nullptr) {
+            head = tail = newNode;
+        } else {
+            tail->next = newNode;
+            tail = newNode;
+        }
+    }
+
+    end = high_resolution_clock::now();
+    duration = duration_cast<microseconds>(end - start).count();
+    cout << "Tempo de criação da lista: " << duration << " microssegundos" << endl;
+
+    // Limpeza da lista para evitar vazamento de memória
+    while (head != nullptr) {
+        ListNode* temp = head;
+        head = head->next;
+        delete temp;
+    }
+    
+    cout << "Altura da árvore: " << treeHeight(root) << endl;
     return 0;
 }
+
 Node* createNode(int iValue)
 {
     Node* tmp = (Node*) malloc(sizeof(Node));
